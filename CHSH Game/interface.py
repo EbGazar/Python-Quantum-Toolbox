@@ -9,6 +9,9 @@ class Qubit(metaclass = ABCMeta):
     def x(self): pass
 
     @abstractmethod
+    def ry(self, angle: float): pass
+
+    @abstractmethod
     def measure(self) -> bool: pass
 
     @abstractmethod
