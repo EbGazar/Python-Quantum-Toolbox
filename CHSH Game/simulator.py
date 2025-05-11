@@ -40,7 +40,13 @@ class Simulator(QuantumDevice):
         if self.available_qubits:
             return self.available_qubits.pop()
 
-    def deallocate_qubit(self, qubit: SimulateQubit):
+    def deallocate_qubit(self, qubit: SimulatedQubit):
         self.available_qubits.append(qubit)
 
+    def _apply(self, unitary: qt.Qobj, ids: list[int]):
+        if len(ids) == 1:
+            matrix = qt.circuit.gate_expand_1toN(unitary, self.capacity, ids[0])
+        else:
+            raise ValueError("Only single-qubit unitary matrices are supported.")
+        self.register_state = matrix * self.register_state
 
